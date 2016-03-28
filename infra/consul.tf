@@ -1,10 +1,3 @@
-# Configure the Google Cloud provider
-provider "google" {
-  credentials = "${file("account.json")}"
-  project     = "tobbe-1262"
-  region      = "europe-west1-c"
-}
-
 # Create a new instance
 resource "google_compute_instance" "consul" {
     count = "${var.servers}"
@@ -80,20 +73,20 @@ resource "google_compute_firewall" "consul_ingress" {
     target_tags = ["${var.tag_name}"]
 }
 
-resource "google_compute_firewall" "consul_access" {
-    name = "consul-external-access"
-    network = "default"
+# resource "google_compute_firewall" "consul_access" {
+#     name = "consul-external-access"
+#     network = "default"
 
-    allow {
-        protocol = "tcp"
-        ports = [
-            "8500", # REST HTTP
-        ]
-    }
+#     allow {
+#         protocol = "tcp"
+#         ports = [
+#             "8500", # REST HTTP
+#         ]
+#     }
 
-    source_ranges = ["85.224.0.0/13"]
-    target_tags = ["${var.tag_name}"]
-}
+#     source_ranges = ["85.224.0.0/13"]
+#     target_tags = ["${var.tag_name}"]
+# }
 
 
 
