@@ -43,7 +43,7 @@ resource "google_compute_instance" "mysql" {
         inline = [
             "echo ${count.index} > /tmp/mysql-server-count",
             "sed -i -e 's/\\&ADDRESS/${google_compute_instance.mysql.0.network_interface.0.address}/g' /tmp/scripts/slave.sql",
-            "echo ${google_compute_instance.mysql.0.network_interface.0.address} > /tmp/mysql-server-addr",
+            "echo ${google_compute_instance.consul.0.network_interface.0.address} > /tmp/consul-server-addr",
             "sudo sh /tmp/scripts/mysql.sh",
         ]
     }
