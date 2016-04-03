@@ -39,10 +39,16 @@ resource "google_compute_instance" "mysql" {
         destination = "/tmp"
     }
 
+    provisioner "file" {
+        source      = "conf/mysql.json"
+        destination = "/tmp/mysql.json"
+    }
+
     provisioner "remote-exec" {
         inline = [
             "echo ${count.index} > /tmp/mysql-server-count",
             "sed -i -e 's/\\&ADDRESS/${google_compute_instance.mysql.0.network_interface.0.address}/g' /tmp/scripts/slave.sql",
+            "sed -i -e 's/\\&HOSTNAME/${self.name}/g' /tmp/mysql.json",
             "echo ${google_compute_instance.consul.0.network_interface.0.address} > /tmp/consul-server-addr",
             "sudo sh /tmp/scripts/mysql.sh",
         ]

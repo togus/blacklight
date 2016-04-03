@@ -1,0 +1,14 @@
+{
+  "service": {
+    "name": "mysql",
+    "tags": ["&HOSTNAME"],
+    "address": "127.0.0.1",
+    "port": 3306,
+    "checks": [
+      {
+        "script": "/usr/bin/mysqladmin -h localhost -u root ping --password=DevOps123!",
+        "interval": "10s"
+      }
+    ]
+  }
+}
